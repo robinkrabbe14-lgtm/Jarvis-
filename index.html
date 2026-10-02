@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071017">
+<meta name="manifest" content="/manifest.webmanifest">
+<meta name="description" content="JARVIS – persönlicher KI-Assistent für Handy und Chromebook">
+<title>JARVIS – Universal Assistant</title>
+<style>
+:root{color-scheme:dark;--bg:#05080c;--panel:#0b1219;--panel2:#0e1a22;--line:#16485b;--cyan:#38d9ff;--text:#d9f7ff;--muted:#78a8b8;--glow:rgba(56,217,255,.25);--danger:#ff647c}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);font-family:Arial,system-ui,sans-serif;color:var(--text)}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+#app{min-height:100vh;background:radial-gradient(circle at 50% 20%,#0d2633 0,#071017 35%,#05080c 75%);padding:clamp(12px,3vw,28px)}
+header{max-width:1050px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{letter-spacing:.2em;font-weight:800;font-size:clamp(17px,4vw,23px)}.status{font-size:11px;color:var(--muted);text-align:right}
+main{max-width:1050px;margin:18px auto;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:16px}.panel{background:rgba(8,16,23,.88);border:1px solid var(--line);border-radius:20px;box-shadow:0 0 35px rgba(0,0,0,.35);padding:clamp(16px,3vw,24px)}
+.core{min-height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.orb{width:min(54vw,245px);height:min(54vw,245px);min-width:175px;min-height:175px;border-radius:50%;border:2px solid var(--cyan);box-shadow:0 0 22px var(--glow),inset 0 0 35px var(--glow);display:grid;place-items:center;position:relative;transition:.25s}.orb:before,.orb:after{content:"";position:absolute;border:1px solid #1a88aa;border-radius:50%}.orb:before{inset:8%}.orb:after{inset:19%}.orb.listening{animation:pulse 1s infinite;box-shadow:0 0 55px rgba(56,217,255,.65),inset 0 0 50px rgba(56,217,255,.3)}@keyframes pulse{50%{transform:scale(1.035)}}
+.arc{font-size:clamp(30px,8vw,40px);font-weight:700;letter-spacing:.18em;color:var(--cyan);text-shadow:0 0 14px var(--glow)}.reply{min-height:72px;margin-top:24px;color:#bdeffc;max-width:700px;line-height:1.5}.controls{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:13px}
+button{background:#0c202b;border:1px solid #1d7690;color:var(--text);border-radius:12px;padding:12px 15px;cursor:pointer;font-size:14px;touch-action:manipulation}button:hover{border-color:var(--cyan);box-shadow:0 0 12px var(--glow)}button:disabled{opacity:.45;cursor:not-allowed}input{width:100%;background:#071018;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:14px;margin-top:10px;outline:none;font-size:16px}input:focus{border-color:var(--cyan)}h2{font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:var(--cyan)}.log{height:300px;overflow:auto;font-size:13px}.entry{padding:9px 0;border-bottom:1px solid #102c38;line-height:1.4}.who{color:var(--cyan);font-weight:bold}.quick{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}small{color:var(--muted);line-height:1.5}.tools{display:flex;gap:8px;margin-top:10px}.tools button{flex:1}
+@media(max-width:800px){main{grid-template-columns:1fr}.core{min-height:calc(100vh - 120px);min-height:calc(100dvh - 120px)}.log{height:220px}}
+@media(max-width:420px){#app{padding:10px}.panel{border-radius:16px;padding:14px}.quick{grid-template-columns:1fr}.status{max-width:125px}.core{min-height:calc(100dvh - 100px)}}
+</style>
+</head>
+<body>
+<div id="app">
+<header><div class="brand">J A R V I S</div><div class="status" id="status">SYSTEM BEREIT · UNIVERSAL</div></header>
+<main>
+<section class="panel core">
+<div class="orb" id="orb"><div class="arc">J</div></div>
+<div class="reply" id="reply">Bereit. Ich kann Befehle per Text oder Sprache entgegennehmen.</div>
+<div class="controls"><button id="listen">🎙 Zuhören</button><button id="speak">🔊 Vorlesen</button></div>
+<input id="cmd" autocomplete="off" placeholder="z. B. „Öffne YouTube“ oder „Wie spät ist es?“">
+<div class="controls"><button id="send">Befehl ausführen</button></div>
+</section>
+<section class="panel">
+<h2>Aktivitätsprotokoll</h2><div class="log" id="log"></div>
+<h2>Schnellbefehle</h2><div class="quick">
+<button data-cmd="Wie spät ist es?">Uhrzeit</button><button data-cmd="Öffne YouTube">YouTube</button><button data-cmd="Öffne Google">Google</button><button data-cmd="Systemstatus">Systemstatus</button>
+</div>
+<h2>Gerät</h2><div class="tools"><button id="install" hidden>📲 Installieren</button><button id="fullscreen">⛶ Vollbild</button></div>
+<p><small>Diese Version ist für Handy und Chromebook optimiert. Die Oberfläche, Sprachsteuerung und Sprachausgabe laufen lokal im Browser. Die KI läuft über den sicheren Server. Dein API-Schlüssel bleibt dort und wird nicht an das Handy oder Chromebook ausgeliefert.</small></p>
+</section>
+</main>
+</div>
+<script>
+const $=s=>document.querySelector(s),log=$('#log'),reply=$('#reply'),orb=$('#orb'),status=$('#status');let lastAnswer='';
+function add(who,msg){const d=document.createElement('div');d.className='entry';d.innerHTML='<span class="who">'+who+':</span> '+msg.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));log.prepend(d)}
+function speak(t){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=.95;u.pitch=.85;speechSynthesis.speak(u)}
+let history=[];async function answer(q){q=q.trim();if(!q)return;add('DU',q);const l=q.toLowerCase();if(l.includes('uhr')||l.includes('zeit')){lastAnswer='Es ist '+new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+'.';reply.textContent=lastAnswer;add('JARVIS',lastAnswer);speak(lastAnswer);return}if(l.includes('youtube')){lastAnswer='Ich öffne YouTube.';reply.textContent=lastAnswer;add('JARVIS',lastAnswer);speak(lastAnswer);window.open('https://www.youtube.com','_blank');return}if(l.includes('google')){lastAnswer='Ich öffne Google.';reply.textContent=lastAnswer;add('JARVIS',lastAnswer);speak(lastAnswer);window.open('https://www.google.com','_blank');return}status.textContent='JARVIS DENKT …';history.push({role:'user',content:q});try{const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})});const d=await r.json();if(!r.ok)throw new Error(d.error||'Fehler');lastAnswer=d.text||'Keine Antwort erhalten.';history.push({role:'assistant',content:lastAnswer});reply.textContent=lastAnswer;add('JARVIS',lastAnswer);speak(lastAnswer)}catch(e){lastAnswer='Die KI-Verbindung ist momentan nicht verfügbar.';reply.textContent=lastAnswer;add('JARVIS',lastAnswer)}finally{status.textContent='SYSTEM BEREIT · UNIVERSAL'}}
+$('#send').onclick=()=>{answer($('#cmd').value);$('#cmd').value=''};$('#cmd').addEventListener('keydown',e=>{if(e.key==='Enter')$('#send').click()});$('#speak').onclick=()=>speak(lastAnswer||reply.textContent);document.querySelectorAll('[data-cmd]').forEach(b=>b.onclick=()=>answer(b.dataset.cmd));
+let recognition;const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(SR){recognition=new SR();recognition.lang='de-DE';recognition.interimResults=false;recognition.continuous=false;recognition.onstart=()=>{orb.classList.add('listening');status.textContent='HÖRE ZU …'};recognition.onend=()=>{orb.classList.remove('listening');status.textContent='SYSTEM BEREIT · UNIVERSAL'};recognition.onerror=()=>{orb.classList.remove('listening');status.textContent='MIKROFON NICHT VERFÜGBAR'};recognition.onresult=e=>answer(e.results[0][0].transcript)}else $('#listen').disabled=true;$('#listen').onclick=()=>recognition&&recognition.start();
+$('#fullscreen').onclick=()=>document.documentElement.requestFullscreen?.();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
+let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('#install').hidden=false});$('#install').onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$('#install').hidden=true}};
+add('JARVIS','System initialisiert. Bereit auf Handy und Chromebook.');
+</script>
+</body></html>
